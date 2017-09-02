@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 enum SceneObjects
 {
@@ -11,7 +10,8 @@ enum SceneObjects
     Goal = 5
 };
 
-public class LevelGenerator : MonoBehaviour
+[System.Serializable]
+public class LevelGenerator
 {
     [SerializeField] private GameObject _Floor = null;
     [SerializeField] private GameObject _Player = null;
@@ -19,13 +19,17 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject _Goal = null;
     [SerializeField] private GameObject _Wall = null;
 
-    private void Awake ()
+    private Containers _Containers = null;
+
+    public void Init (Containers containers)
     {
-        GenerateLevel (GetLevel ());
+        _Containers = containers;
     }
 
-    private int[][] GetLevel ()
+    public void GetLevel (int levelNumber)
     {
+        ClearLevel ();
+
         int[][] level = new int[8][];
 
         level[7] = new int[] { 1, 1, 1, 1, 0, 0, 0, 0 };
@@ -37,7 +41,7 @@ public class LevelGenerator : MonoBehaviour
         level[1] = new int[] { 1, 2, 2, 2, 1, 1, 1, 1 };
         level[0] = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
 
-        return level;
+        GenerateLevel (level);
     }
 
     private void GenerateLevel (int[][] level)
@@ -51,27 +55,30 @@ public class LevelGenerator : MonoBehaviour
                 int index = (int)level[i].GetValue (j);
 
                 if (index == (int)SceneObjects.Wall)
-                    CreateObject (_Wall, new Vector3 (j, i, 0f));
+                    _Containers.Walls.Add (CreateObject (_Wall, new Vector3 (j, i, 0f)).transform);
 
                 if (index == (int)SceneObjects.Brick)
-                    CreateObject (_Brick, new Vector3 (j, i, 0f));
+                    _Containers.Bricks.Add (CreateObject (_Brick, new Vector3 (j, i, 0f)).transform);
 
                 if (index == (int)SceneObjects.Player)
                     CreateObject (_Player, new Vector3 (j, i, 0f));
 
                 if (index == (int)SceneObjects.Goal)
-                    CreateObject (_Goal, new Vector3 (j, i, 1f));
+                    _Containers.Goals.Add (CreateObject (_Goal, new Vector3 (j, i, 1f)).transform);
 
                 if (index != (int)SceneObjects.Empty && index != (int)SceneObjects.Goal && index != (int)SceneObjects.Wall)
                     CreateObject (_Floor, new Vector3 (j, i, 1f));
             }
         }
+
+        _Containers.TrimContainers ();
     }
 
     private GameObject CreateObject (GameObject prefab, Vector3 position)
     {
-        var go = Instantiate (prefab, position, Quaternion.identity);
+        var go = Object.Instantiate (prefab, position, Quaternion.identity);
         go.transform.SetParent (GetHolder (prefab.name + "s"));
+        _Containers.Game.Add (go);
         return go;
     }
 
@@ -85,5 +92,10 @@ public class LevelGenerator : MonoBehaviour
         var newHolder = new GameObject (holderName).transform;
         newHolder.SetParent (GameObject.Find ("Level").transform);
         return newHolder;
+    }
+
+    private void ClearLevel ()
+    {
+        _Containers.ClearContainers ();
     }
 }
