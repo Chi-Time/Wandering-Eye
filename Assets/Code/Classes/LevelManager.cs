@@ -3,9 +3,13 @@ using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
+    public int Pushes = 0;
+    public int Moves = 0;
+
     [SerializeField] private int _GoalAmount = 2;
     [SerializeField] private Containers _Containers = new Containers ();
     [SerializeField] private LevelGenerator _Generator = new LevelGenerator ();
+    [SerializeField] private CheckpointController _CheckpointController = new CheckpointController ();
 
     private void Awake ()
     {
@@ -16,9 +20,12 @@ public class LevelManager : MonoBehaviour
 
     private void AssignReferences ()
     {
-        _Generator.Init (_Containers);
+        _Generator.Init (_Containers, _CheckpointController);
+        _CheckpointController.Init (_Containers, this);
 
         EventManager.OnGoalAmountUpdated += UpdateGoalAmount;
+        EventManager.OnBrickPushed += BrickPushed;
+        EventManager.OnPlayerMoved += PlayerMoved;
     }
 
     private void Start ()
@@ -34,18 +41,27 @@ public class LevelManager : MonoBehaviour
             print ("Level Complete!");
     }
 
-    private void Update ()
+    private void BrickPushed (int amount, bool isCaller)
     {
-        GetInput ();
+        if (!isCaller)
+            EventManager.PushBrick (Pushes += amount, true);
     }
 
-    private void GetInput ()
+    private void PlayerMoved (int amount, bool isCaller)
     {
+        if (!isCaller)
+            EventManager.PushBrick (Moves += amount, true);
+    }
 
+    private void Update ()
+    {
+        _CheckpointController.GetInput ();
     }
 
     private void OnDestroy ()
     {
         EventManager.OnGoalAmountUpdated -= UpdateGoalAmount;
+        EventManager.OnBrickPushed -= BrickPushed;
+        EventManager.OnPlayerMoved -= PlayerMoved;
     }
 }
