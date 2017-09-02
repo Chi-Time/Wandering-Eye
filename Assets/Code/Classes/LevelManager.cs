@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start ()
     {
-        
+        _GoalAmount = _Containers.Goals.Count;
     } 
 
     private void UpdateGoalAmount (int amount)
