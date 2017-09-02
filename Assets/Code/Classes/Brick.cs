@@ -7,6 +7,7 @@ public class Brick : MonoBehaviour
     [SerializeField] private Color _GoalColor = Color.magenta;
 
     private bool _IsMoving = false;
+    private bool _WasInGoal = false;
     private Renderer _Renderer = null;
     private Transform _Transform = null;
 
@@ -68,15 +69,17 @@ public class Brick : MonoBehaviour
 
     private void InGoal (bool isInGoal)
     {
-        //TODO: Inform level manager brick is in place.
-
-        if(isInGoal)
+        if(isInGoal && _WasInGoal == false)
         {
             _Renderer.material.color = _GoalColor;
+            EventManager.UpdateGoalAmount (-1);
+            _WasInGoal = true;
         }
-        else
+        else if(!isInGoal && _WasInGoal == true)
         {
             _Renderer.material.color = _DefaultColor;
+            EventManager.UpdateGoalAmount (1);
+            _WasInGoal = false;
         }
     }
 
