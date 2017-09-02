@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    private Vector3 _Direction = Vector3.zero;
     private Transform _Transform = null;
 
     private void Awake ()
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
         var info = new RaycastHit ();
 
         if (Physics.Linecast ((Vector2)_Transform.position, end, out info))
-            if (info.collider.CompareTag ("Finish"))
+            if (info.collider.CompareTag ("Wall"))
                 return false;
 
         return true;
