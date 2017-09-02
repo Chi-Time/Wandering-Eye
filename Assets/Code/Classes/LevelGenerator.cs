@@ -42,6 +42,8 @@ public class LevelGenerator : MonoBehaviour
 
     private void GenerateLevel (int[][] level)
     {
+        new GameObject ("Level");
+
         for(int i = 0; i < level.Length; i++)
         {
             for(int j = 0; j < level[i].Length; j++)
@@ -68,6 +70,20 @@ public class LevelGenerator : MonoBehaviour
 
     private GameObject CreateObject (GameObject prefab, Vector3 position)
     {
-        return Instantiate (prefab, position, Quaternion.identity);
+        var go = Instantiate (prefab, position, Quaternion.identity);
+        go.transform.SetParent (GetHolder (prefab.name + "s"));
+        return go;
+    }
+
+    private Transform GetHolder (string holderName)
+    {
+        var holder = GameObject.Find (holderName);
+
+        if (holder != null)
+            return holder.transform;
+
+        var newHolder = new GameObject (holderName).transform;
+        newHolder.SetParent (GameObject.Find ("Level").transform);
+        return newHolder;
     }
 }
