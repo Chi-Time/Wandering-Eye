@@ -20,10 +20,12 @@ public class LevelGenerator
     [SerializeField] private GameObject _Wall = null;
 
     private Containers _Containers = null;
+    private CheckpointController _CheckpointController = null;
 
-    public void Init (Containers containers)
+    public void Init (Containers containers, CheckpointController checkpointController)
     {
         _Containers = containers;
+        _CheckpointController = checkpointController;
     }
 
     public void GetLevel (int levelNumber)
@@ -61,7 +63,7 @@ public class LevelGenerator
                     _Containers.Bricks.Add (CreateObject (_Brick, new Vector3 (j, i, 0f)).transform);
 
                 if (index == (int)SceneObjects.Player)
-                    CreateObject (_Player, new Vector3 (j, i, 0f));
+                    _Containers.Player = CreateObject (_Player, new Vector3 (j, i, 0f));
 
                 if (index == (int)SceneObjects.Goal)
                     _Containers.Goals.Add (CreateObject (_Goal, new Vector3 (j, i, 1f)).transform);
@@ -72,6 +74,7 @@ public class LevelGenerator
         }
 
         _Containers.TrimContainers ();
+        _CheckpointController.StoreStartPositions ();
     }
 
     private GameObject CreateObject (GameObject prefab, Vector3 position)
