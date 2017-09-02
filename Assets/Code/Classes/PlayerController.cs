@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update ()
     {
-        if(!_IsMoving)
+        if (!_IsMoving)
             GetInput ();
     }
 
