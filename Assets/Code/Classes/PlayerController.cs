@@ -34,21 +34,23 @@ public class PlayerController : MonoBehaviour
             Move (Vector2.up);
     }
 
-    private void Move (Vector2 dir)
+    private void Move (Vector3 dir)
     {
-        if (CanMove (dir))
-            _Transform.position += (Vector3)dir;
+        if (SpaceIsEmpty (dir))
+            _Transform.position += dir;
     }
 
-    private bool CanMove (Vector2 dir)
+    private bool SpaceIsEmpty (Vector3 dir)
     {
-        var end = (Vector2)_Transform.position + dir;
+        var end = _Transform.position + dir;
         var info = new RaycastHit ();
 
-        if (Physics.Linecast ((Vector2)_Transform.position, end, out info))
+        if (Physics.Linecast (_Transform.position, end, out info))
         {
+            // There's a wall, we can't move here.
             if (info.collider.CompareTag ("Wall"))
                 return false;
+            // There's a brick, let's check if we can push it.
             else if (info.collider.CompareTag ("Brick"))
                 return CanPushBrick (dir, info);
         }
@@ -56,11 +58,12 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-    private bool CanPushBrick (Vector2 dir, RaycastHit info)
+    private bool CanPushBrick (Vector3 dir, RaycastHit info)
     {
+        // Grab the brick and see if it can be pushed.
         var brick = info.collider.gameObject.GetComponent<Brick> ();
 
-        if (brick.IsPushed (dir))
+        if (brick.CanBePushed (dir))
             return true;
 
         return false;
