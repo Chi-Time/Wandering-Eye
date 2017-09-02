@@ -3,6 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private float _Speed = .125f;
+
+    private bool _IsMoving = false;
     private Transform _Transform = null;
 
     private void Awake ()
@@ -19,7 +22,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update ()
     {
-        GetInput ();
+        if(!_IsMoving)
+            GetInput ();
     }
 
     private void GetInput ()
@@ -37,7 +41,25 @@ public class PlayerController : MonoBehaviour
     private void Move (Vector3 dir)
     {
         if (SpaceIsEmpty (dir))
-            _Transform.position += dir;
+            StartCoroutine (MoveToPosition (_Transform.position + dir, _Speed));
+    }
+
+    private IEnumerator MoveToPosition (Vector3 newPos, float speed)
+    {
+        _IsMoving = true;
+        var elapsedTime = 0f;
+        var startingPos = _Transform.position;
+
+        while (elapsedTime < speed)
+        {
+            transform.position = Vector3.Lerp (startingPos, newPos, (elapsedTime / speed));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame ();
+        }
+
+        _Transform.position = newPos;
+        StopAllCoroutines ();
+        _IsMoving = false;
     }
 
     private bool SpaceIsEmpty (Vector3 dir)
@@ -63,7 +85,7 @@ public class PlayerController : MonoBehaviour
         // Grab the brick and see if it can be pushed.
         var brick = info.collider.gameObject.GetComponent<Brick> ();
 
-        if (brick.CanBePushed (dir))
+        if (brick.CanBePushed (dir, _Speed))
             return true;
 
         return false;
