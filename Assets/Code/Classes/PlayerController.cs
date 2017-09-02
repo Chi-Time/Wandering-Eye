@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator MoveToPosition (Vector3 newPos, float speed)
     {
+        EventManager.PlayerMoved (1, false);
         _IsMoving = true;
         var elapsedTime = 0f;
         var startingPos = _Transform.position;
