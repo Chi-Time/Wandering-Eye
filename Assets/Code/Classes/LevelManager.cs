@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class LevelManager : MonoBehaviour
 {
@@ -38,7 +37,7 @@ public class LevelManager : MonoBehaviour
         _GoalAmount += amount;
 
         if (_GoalAmount <= 0)
-            print ("Level Complete!");
+            EventManager.Changestate (GameStates.LevelComplete);
     }
 
     private void BrickPushed (int amount, bool isCaller)
