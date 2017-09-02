@@ -7,6 +7,8 @@ public class Brick : MonoBehaviour
 
     private void Awake ()
     {
+        this.tag = "Brick";
+
         AssignReferences ();
     }
 
@@ -15,23 +17,23 @@ public class Brick : MonoBehaviour
         _Transform = GetComponent<Transform> ();
     }
 
-    public bool IsPushed (Vector2 dir)
+    public bool CanBePushed (Vector3 dir)
     {
         if (CanMove (dir))
         {
-            _Transform.position += (Vector3)dir;
+            _Transform.position += dir;
             return true;
         }
 
         return false;
     }
 
-    private bool CanMove (Vector2 dir)
+    private bool CanMove (Vector3 dir)
     {
-        var end = (Vector2)_Transform.position + dir;
+        var end = _Transform.position + dir;
         var info = new RaycastHit ();
 
-        if (Physics.Linecast ((Vector2)_Transform.position, end, out info))
+        if (Physics.Linecast (_Transform.position, end, out info))
             if (info.collider.CompareTag ("Wall") || info.collider.CompareTag("Brick"))
                 return false;
 
