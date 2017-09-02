@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
 
     private bool CanMove (Vector2 dir)
     {
-        // We don't need the Z axis.
         var end = (Vector2)_Transform.position + dir;
         var info = new RaycastHit ();
 
@@ -59,7 +58,11 @@ public class PlayerController : MonoBehaviour
 
     private bool CanPushBrick (Vector2 dir, RaycastHit info)
     {
-        info.transform.position += (Vector3)dir;
-        return true;
+        var brick = info.collider.gameObject.GetComponent<Brick> ();
+
+        if (brick.IsPushed (dir))
+            return true;
+
+        return false;
     }
 }

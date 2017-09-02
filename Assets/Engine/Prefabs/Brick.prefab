@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 33070080770833424}
   - component: {fileID: 65840245086919642}
   - component: {fileID: 23753253863052858}
+  - component: {fileID: 114737620724355648}
   m_Layer: 0
   m_Name: Brick
-  m_TagString: Untagged
+  m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,3 +93,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114737620724355648
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1120051838650858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69db8b359dc70b6459022081e56e6196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
