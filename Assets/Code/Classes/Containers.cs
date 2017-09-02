@@ -18,6 +18,7 @@ public class Containers
     public List<Transform> Goals = new List<Transform> ();
     /// Contains the current number of Bricks that are in goal zones.
     public List<Transform> BricksInGoal = new List<Transform> ();
+    public GameObject Player = null;
 
     public void TrimContainers ()
     {
@@ -34,6 +35,7 @@ public class Containers
         Bricks.Clear ();
         Goals.Clear ();
         Game.Clear ();
+        Player = null;
     }
 
     private void RemoveObjects ()
