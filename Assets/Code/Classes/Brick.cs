@@ -6,6 +6,7 @@ public class Brick : MonoBehaviour
     [SerializeField] private Color _DefaultColor = Color.red;
     [SerializeField] private Color _GoalColor = Color.magenta;
 
+    private bool _IsMoving = false;
     private Renderer _Renderer = null;
     private Transform _Transform = null;
 
@@ -27,12 +28,12 @@ public class Brick : MonoBehaviour
         _Renderer.material.color = _DefaultColor;
     }
 
-    public bool CanBePushed (Vector3 dir)
+    public bool CanBePushed (Vector3 dir, float speed)
     {
-        if (CanMove (dir))
+        if (CanMove (dir) && !_IsMoving)
         {
-            _Transform.position += dir;
-            CheckForGoal ();
+            StartCoroutine (MoveToPosition (_Transform.position + dir, speed));
+            
             return true;
         }
 
@@ -52,7 +53,7 @@ public class Brick : MonoBehaviour
         return true;
     }
 
-    private void CheckForGoal ()
+    private void CheckIfInGoal ()
     {
         var info = new RaycastHit ();
 
@@ -77,5 +78,24 @@ public class Brick : MonoBehaviour
         {
             _Renderer.material.color = _DefaultColor;
         }
+    }
+
+    private IEnumerator MoveToPosition (Vector3 newPos, float speed)
+    {
+        _IsMoving = true;
+        var elapsedTime = 0f;
+        var startingPos = _Transform.position;
+
+        while (elapsedTime < speed)
+        {
+            transform.position = Vector3.Lerp (startingPos, newPos, (elapsedTime / speed));
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame ();
+        }
+
+        _Transform.position = newPos;
+        StopAllCoroutines ();
+        _IsMoving = false;
+        CheckIfInGoal ();
     }
 }
