@@ -62,7 +62,7 @@ public class LevelGenerator : MonoBehaviour
                 if (index == (int)SceneObjects.Goal)
                     CreateObject (_Goal, new Vector3 (j, i, 1f));
 
-                if (index != (int)SceneObjects.Empty && index != (int)SceneObjects.Goal)
+                if (index != (int)SceneObjects.Empty && index != (int)SceneObjects.Goal && index != (int)SceneObjects.Wall)
                     CreateObject (_Floor, new Vector3 (j, i, 1f));
             }
         }
