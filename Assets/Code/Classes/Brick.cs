@@ -8,6 +8,7 @@ public class Brick : MonoBehaviour
 
     private bool _IsMoving = false;
     private bool _WasInGoal = false;
+    private Vector3 _CurrentPosition = Vector3.zero;
     private Renderer _Renderer = null;
     private Transform _Transform = null;
 
@@ -34,7 +35,7 @@ public class Brick : MonoBehaviour
         if (CanMove (dir) && !_IsMoving)
         {
             StartCoroutine (MoveToPosition (_Transform.position + dir, speed));
-            
+            EventManager.PushBrick (1, false);
             return true;
         }
 
@@ -97,8 +98,15 @@ public class Brick : MonoBehaviour
         }
 
         _Transform.position = newPos;
+        _CurrentPosition = newPos;
         StopAllCoroutines ();
         _IsMoving = false;
-        CheckIfInGoal ();
+    }
+
+    private void Update ()
+    {
+        // Hacky way to check if in goal.
+        if(_Transform.position != _CurrentPosition)
+            CheckIfInGoal ();
     }
 }
