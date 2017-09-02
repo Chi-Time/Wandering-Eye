@@ -1,11 +1,25 @@
 ﻿public delegate void GoalAmountUpdated (int amount);
+public delegate void BrickPushed (int amount, bool isCaller);
+public delegate void PlayerMoved (int amount, bool isCaller);
 
 public static class EventManager
 {
     public static event GoalAmountUpdated OnGoalAmountUpdated;
+    public static event BrickPushed OnBrickPushed;
+    public static event PlayerMoved OnPlayerMoved;
 
     public static void UpdateGoalAmount (int amount)
     {
         OnGoalAmountUpdated (amount);
+    }
+
+    public static void PushBrick (int amount, bool isCaller)
+    {
+        OnBrickPushed (amount, isCaller);
+    }
+
+    public static void PlayerMoved (int amount, bool isCaller)
+    {
+        OnPlayerMoved (amount, isCaller);
     }
 }
