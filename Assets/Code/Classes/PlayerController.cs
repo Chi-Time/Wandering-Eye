@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _Speed = .125f;
+    [SerializeField] private float _Speed = .075f;
 
     private bool _IsMoving = false;
     private Transform _Transform = null;
