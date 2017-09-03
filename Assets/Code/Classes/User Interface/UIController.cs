@@ -10,7 +10,7 @@ public class UIController : MonoBehaviour
 
         EventManager.OnStateChanged += StateChanged;
 
-        EventManager.Changestate (GameStates.InGame);
+        EventManager.ChangeState (GameStates.InGame);
     }
 
     private void AssignReferences ()
