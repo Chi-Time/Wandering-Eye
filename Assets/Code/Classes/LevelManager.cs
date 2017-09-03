@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
         EventManager.OnGoalAmountUpdated += UpdateGoalAmount;
         EventManager.OnBrickPushed += BrickPushed;
         EventManager.OnPlayerMoved += PlayerMoved;
+        EventManager.OnStateChanged += StateChanged;
     }
 
     private void Start ()
@@ -34,9 +35,9 @@ public class LevelManager : MonoBehaviour
     public void NewLevel (int levelNumber)
     {
         _Generator.GetNewLevel (levelNumber);
+        _GoalAmount = _Containers.Goals.Count;
         Pushes = 0;
         Moves = 0;
-        _GoalAmount = _Containers.Goals.Count;
     }
 
     private void UpdateGoalAmount (int amount)
@@ -44,11 +45,7 @@ public class LevelManager : MonoBehaviour
         _GoalAmount += amount;
 
         if (_GoalAmount <= 0)
-        {
             EventManager.ChangeState (GameStates.LevelComplete);
-            Pushes = 0;
-            Moves = 0;
-        }
     }
 
     private void BrickPushed (int amount, bool isCaller)
@@ -63,6 +60,10 @@ public class LevelManager : MonoBehaviour
             EventManager.PlayerMoved (Moves += amount, true);
     }
 
+    private void StateChanged (GameStates state)
+    {
+    }
+
     private void Update ()
     {
         _CheckpointController.GetInput ();
@@ -73,5 +74,6 @@ public class LevelManager : MonoBehaviour
         EventManager.OnGoalAmountUpdated -= UpdateGoalAmount;
         EventManager.OnBrickPushed -= BrickPushed;
         EventManager.OnPlayerMoved -= PlayerMoved;
+        EventManager.OnStateChanged -= StateChanged;
     }
 }
