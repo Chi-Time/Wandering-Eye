@@ -49,7 +49,7 @@ public class LevelManager : MonoBehaviour
     private void PlayerMoved (int amount, bool isCaller)
     {
         if (!isCaller)
-            EventManager.PushBrick (Moves += amount, true);
+            EventManager.PlayerMoved (Moves += amount, true);
     }
 
     private void Update ()
