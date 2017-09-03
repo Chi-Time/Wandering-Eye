@@ -23,6 +23,6 @@ public class GameController : MonoBehaviour
 
     public void LastLevel ()
     {
-        _LevelManager.NewLevel (_CurrentLevel += 1);
+        _LevelManager.NewLevel (_CurrentLevel -= 1);
     }
 }
