@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//TOOD: Reset goal amount and push/move values when a new level is created.
 public class LevelManager : MonoBehaviour
 {
     public int Pushes = 0;
@@ -27,9 +28,16 @@ public class LevelManager : MonoBehaviour
 
     private void Start ()
     {
-        _Generator.GetLevel (0);
+        NewLevel (1);
+    }
+
+    public void NewLevel (int levelNumber)
+    {
+        _Generator.GetNewLevel (levelNumber);
+        Pushes = 0;
+        Moves = 0;
         _GoalAmount = _Containers.Goals.Count;
-    } 
+    }
 
     private void UpdateGoalAmount (int amount)
     {
