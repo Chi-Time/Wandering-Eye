@@ -20,9 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4315630140545078}
   - component: {fileID: 114166762195287832}
+  - component: {fileID: 114379671112052562}
   m_Layer: 0
   m_Name: GameController
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40784721c55d91409079fae4e69dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _GoalAmount: 1
+  Pushes: 0
+  Moves: 0
   _Containers:
     StartingPositions: []
     CheckpointPositions: []
@@ -60,9 +62,23 @@ MonoBehaviour:
     Bricks: []
     Goals: []
     BricksInGoal: []
+    Player: {fileID: 0}
   _Generator:
     _Floor: {fileID: 1570950454070962, guid: fa34d73c07acda3499bf4859f114b61f, type: 2}
     _Player: {fileID: 1120051838650858, guid: 700851105457b1b4782f9e9089e51128, type: 2}
     _Brick: {fileID: 1120051838650858, guid: 9a49502b1af69b946b89bcf9771af187, type: 2}
     _Goal: {fileID: 1120051838650858, guid: c71e35cbff215944f9fe716ce6c49fd6, type: 2}
     _Wall: {fileID: 1120051838650858, guid: 5e5280f40ac013444a822ad147437bee, type: 2}
+  _GoalAmount: 0
+--- !u!114 &114379671112052562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1843781058219906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c43ed4a1d8b26b4091dd828ca1bc08e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CurrentLevel: 1
