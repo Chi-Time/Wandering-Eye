@@ -50,6 +50,9 @@ public class CheckpointController
             _Containers.Bricks[i].position = _Containers.StartingPositions[i];
 
         _Containers.Player.transform.position = _Containers.StartingPositions[_Containers.StartingPositions.Length - 1];
+
+        _LevelManager.Pushes = 0;
+        _LevelManager.Moves = 0;
     }
 
     private void StoreCheckpoint ()
