@@ -30,12 +30,12 @@ public class LevelCompleteScreenController : MonoBehaviour
 
     public void SpawnNextLevel ()
     {
-        GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().NextLevel ();
+        StartCoroutine (GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().NextLevel ());
     }
 
     public void SpawnLastLevel ()
     {
-        GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().LastLevel ();
+        StartCoroutine (GameObject.FindGameObjectWithTag ("GameController").GetComponent<GameController> ().LastLevel ());
     }
 
     public void BackToMenu ()
