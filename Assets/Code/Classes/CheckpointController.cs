@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//TODO: Pushes and Moves don't reset through UI callbacks when restarting level or checkpoints. Fix this.
+
 [System.Serializable]
 public class CheckpointController
 {
