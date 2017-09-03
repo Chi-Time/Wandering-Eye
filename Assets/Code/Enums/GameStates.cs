@@ -5,6 +5,7 @@
     Credits,
     LevelSelect,
     InGame,
+    Fade,
     LevelComplete,
     InGameOptions
 }

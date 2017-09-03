@@ -18,7 +18,10 @@ public class UIController : MonoBehaviour
         _Screens = new GameObject[transform.childCount];
 
         for (int i = 0; i < _Screens.Length; i++)
-            _Screens[i] = transform.GetChild (i).gameObject;
+        {
+            var go = transform.GetChild (i).gameObject;
+            _Screens[i] = go;
+        }
     }
 
     private void StateChanged (GameStates state)
@@ -42,6 +45,10 @@ public class UIController : MonoBehaviour
                 break;
             case GameStates.LevelComplete:
                 SwitchScreen (5);
+                break;
+            case GameStates.Fade:
+                for (int i = 0; i < _Screens.Length; i++)
+                    _Screens[i].SetActive (false);
                 break;
             case GameStates.InGameOptions:
                 SwitchScreen (6);
