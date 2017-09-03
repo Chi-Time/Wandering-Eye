@@ -20,13 +20,13 @@ public class CheckpointController
 
     public void GetInput ()
     {
-        if (Input.GetKeyDown (KeyCode.R))
+        if (Input.GetKeyDown (KeyCode.R) || Input.GetButtonDown("Reset Level"))
             ResetCurrentLevel ();
 
-        if (Input.GetKeyDown (KeyCode.E))
+        if (Input.GetKeyDown (KeyCode.E) || Input.GetButtonDown("Store Checkpoint"))
             StoreCheckpoint ();
 
-        if (Input.GetKeyDown (KeyCode.Q))
+        if (Input.GetKeyDown (KeyCode.Q) || Input.GetButtonDown("Restore Checkpoint"))
             RestoreCheckpoint ();
     }
 

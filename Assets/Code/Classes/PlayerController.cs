@@ -4,7 +4,9 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _Speed = .075f;
+    [SerializeField] private bool _UseJoystick = false;
 
+    private bool _StickMoved = false;
     private bool _IsMoving = false;
     private Transform _Transform = null;
 
@@ -22,20 +24,46 @@ public class PlayerController : MonoBehaviour
 
     private void Update ()
     {
-        if (!_IsMoving)
-            GetInput ();
+        GetKeybaordInput ();
+        GetJoyStickInput ();
     }
 
-    private void GetInput ()
+    private void GetKeybaordInput ()
     {
-        if (Input.GetKeyDown (KeyCode.A))
+        if (Input.GetKeyDown (KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
             Move (Vector2.left);
-        else if (Input.GetKeyDown (KeyCode.D))
+        else if (Input.GetKeyDown (KeyCode.D) || Input.GetKeyDown (KeyCode.RightArrow))
             Move (Vector2.right);
-        else if (Input.GetKeyDown (KeyCode.S))
+        else if (Input.GetKeyDown (KeyCode.S) || Input.GetKeyDown (KeyCode.DownArrow))
             Move (Vector2.down);
-        else if (Input.GetKeyDown (KeyCode.W))
+        else if (Input.GetKeyDown (KeyCode.W) || Input.GetKeyDown (KeyCode.UpArrow))
             Move (Vector2.up);
+    }
+
+    private void GetJoyStickInput ()
+    {
+        if (Input.GetAxis ("Horizontal") > 0.0f && !_StickMoved)
+        {
+            Move (Vector2.right);
+            _StickMoved = true;
+        }
+        else if (Input.GetAxis ("Horizontal") < 0.0f && !_StickMoved)
+        {
+            Move (Vector2.left);
+            _StickMoved = true;
+        }
+        else if (Input.GetAxis ("Vertical") > 0.0f && !_StickMoved)
+        {
+            Move (Vector2.up);
+            _StickMoved = true;
+        }
+        else if (Input.GetAxis ("Vertical") < 0.0f && !_StickMoved)
+        {
+            Move (Vector2.down);
+            _StickMoved = true;
+        }
+        else if (Input.GetAxis ("Horizontal") == 0.0f && Input.GetAxis ("Vertical") == 0.0f)
+            _StickMoved = false;
     }
 
     private void Move (Vector3 dir)
