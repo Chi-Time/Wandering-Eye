@@ -19,6 +19,7 @@ public class LevelGenerator
     [SerializeField] private GameObject _Goal = null;
     [SerializeField] private GameObject _Wall = null;
 
+    private Levels _Levels = new Levels ();
     private Containers _Containers = null;
     private CheckpointController _CheckpointController = null;
 
@@ -28,20 +29,11 @@ public class LevelGenerator
         _CheckpointController = checkpointController;
     }
 
-    public void GetLevel (int levelNumber)
+    public void GetNewLevel (int levelNumber)
     {
         ClearLevel ();
 
-        int[][] level = new int[8][];
-
-        level[7] = new int[] { 1, 1, 1, 1, 0, 0, 0, 0 };
-        level[6] = new int[] { 1, 2, 2, 1, 0, 0, 0, 0 };
-        level[5] = new int[] { 1, 2, 2, 1, 1, 1, 1, 1 };
-        level[4] = new int[] { 1, 2, 2, 2, 2, 2, 2, 1 };
-        level[3] = new int[] { 1, 1, 4, 5, 1, 3, 2, 1 };
-        level[2] = new int[] { 1, 2, 2, 2, 1, 2, 2, 1 };
-        level[1] = new int[] { 1, 2, 2, 2, 1, 1, 1, 1 };
-        level[0] = new int[] { 1, 1, 1, 1, 1, 1, 1, 1 };
+        int[][] level = _Levels.GetLevel (levelNumber);
 
         GenerateLevel (level);
     }
