@@ -15,7 +15,7 @@ public static class EventManager
         OnGoalAmountUpdated (amount);
     }
 
-    public static void Changestate (GameStates state)
+    public static void ChangeState (GameStates state)
     {
         OnStateChanged (state);
     }

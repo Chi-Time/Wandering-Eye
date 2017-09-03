@@ -75,6 +75,7 @@ public class LevelGenerator
 
         _Containers.TrimContainers ();
         _CheckpointController.StoreStartPositions ();
+        EventManager.ChangeState (GameStates.InGame);
     }
 
     private GameObject CreateObject (GameObject prefab, Vector3 position)
