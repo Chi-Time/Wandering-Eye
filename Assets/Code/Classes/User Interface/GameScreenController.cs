@@ -3,28 +3,4 @@ using UnityEngine.UI;
 
 public class GameScreenController : MonoBehaviour
 {
-    [SerializeField] private Text _PushesLabel = null;
-    [SerializeField] private Text _MovesLabel = null;
-
-    private void Awake ()
-    {
-        EventManager.OnBrickPushed += BrickPushed;
-        EventManager.OnPlayerMoved += PlayerMoved;  
-    }
-
-    private void BrickPushed (int amount, bool isCaller)
-    {
-        _PushesLabel.text = "Pushes: " + amount.ToString ();
-    }
-
-    private void PlayerMoved (int amount, bool isCaller)
-    {
-        _MovesLabel.text = "Moves: " + amount.ToString ();
-    }
-
-    private void OnDestroy ()
-    {
-        EventManager.OnBrickPushed -= BrickPushed;
-        EventManager.OnPlayerMoved -= PlayerMoved;
-    }
 }
