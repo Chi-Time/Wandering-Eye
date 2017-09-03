@@ -4,17 +4,15 @@ public class LevelManager : MonoBehaviour
 {
     public int Pushes = 0;
     public int Moves = 0;
+    public Containers _Containers = new Containers ();
+    public LevelGenerator _Generator = new LevelGenerator ();
+    public CheckpointController _CheckpointController = new CheckpointController ();
 
     [SerializeField] private int _GoalAmount = 2;
-    [SerializeField] private Containers _Containers = new Containers ();
-    [SerializeField] private LevelGenerator _Generator = new LevelGenerator ();
-    [SerializeField] private CheckpointController _CheckpointController = new CheckpointController ();
 
     private void Awake ()
     {
         AssignReferences ();
-
-        _Generator.GetLevel (0);
     }
 
     private void AssignReferences ()
@@ -29,6 +27,7 @@ public class LevelManager : MonoBehaviour
 
     private void Start ()
     {
+        _Generator.GetLevel (0);
         _GoalAmount = _Containers.Goals.Count;
     } 
 
@@ -37,7 +36,11 @@ public class LevelManager : MonoBehaviour
         _GoalAmount += amount;
 
         if (_GoalAmount <= 0)
-            EventManager.Changestate (GameStates.LevelComplete);
+        {
+            EventManager.ChangeState (GameStates.LevelComplete);
+            Pushes = 0;
+            Moves = 0;
+        }
     }
 
     private void BrickPushed (int amount, bool isCaller)
