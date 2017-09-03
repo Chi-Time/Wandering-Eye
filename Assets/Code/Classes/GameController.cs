@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private float _FadeSpeed = .5f;
 
     private Image _FadePanel = null;
+    [SerializeField] private GameStates _CurrentGameState = GameStates.Menu;
     private LevelManager _LevelManager = null;
 
     private void Awake ()
@@ -30,6 +31,8 @@ public class GameController : MonoBehaviour
 
     private void StateChanged (GameStates state)
     {
+        _CurrentGameState = state;
+
         switch (state)
         {
             case GameStates.Menu:
@@ -41,11 +44,30 @@ public class GameController : MonoBehaviour
             case GameStates.LevelSelect:
                 break;
             case GameStates.InGame:
-                Time.timeScale = 1f;
                 break;
             case GameStates.LevelComplete:
                 break;
             case GameStates.InGameOptions:
+                break;
+        }
+    }
+
+    private void Update ()
+    {
+        if (_CurrentGameState == GameStates.InGame || _CurrentGameState == GameStates.InGameOptions)
+            if (Input.GetKeyDown (KeyCode.Escape) || Input.GetButtonDown ("Pause"))
+                PauseGame ();
+    }
+
+    private void PauseGame ()
+    {
+        switch (_CurrentGameState)
+        {
+            case GameStates.InGame:
+                EventManager.ChangeState (GameStates.InGameOptions);
+                break;
+            case GameStates.InGameOptions:
+                EventManager.ChangeState (GameStates.InGame);
                 break;
         }
     }
