@@ -1,5 +1,7 @@
 ﻿public class Levels
 {
+    //TOOD: Change from using ints to using chars for level generation.
+    //TODO: Make algorithm for level editor that forces all sides to be equal length.
     public int[][] GetLevel (int levelNumber)
     {
         int[][] level;
