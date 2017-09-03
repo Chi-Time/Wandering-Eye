@@ -2,7 +2,7 @@
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] private int _CurrentLevel = 0;
+    [SerializeField] private int _CurrentLevel = 1;
 
     private LevelManager _LevelManager = null;
 
@@ -18,11 +18,11 @@ public class GameController : MonoBehaviour
 
     public void NextLevel ()
     {
-        _LevelManager._Generator.GetLevel (_CurrentLevel += 1);
+        _LevelManager.NewLevel (_CurrentLevel += 1);
     }
 
     public void LastLevel ()
     {
-        _LevelManager._Generator.GetLevel (_CurrentLevel -= 1);
+        _LevelManager.NewLevel (_CurrentLevel += 1);
     }
 }
