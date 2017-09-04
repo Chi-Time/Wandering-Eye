@@ -40,6 +40,6 @@ public class LevelCompleteScreenController : MonoBehaviour
 
     public void BackToMenu ()
     {
-        EventManager.ChangeState (GameStates.Menu);
+        //TODO: Load menu scene.
     }
 }

@@ -4,7 +4,7 @@ public class UIController : MonoBehaviour
 {
     [SerializeField] private GameObject[] _Screens = null;
 
-    private void Awake ()
+    private void Start ()
     {
         AssignReferences ();
 
@@ -28,30 +28,20 @@ public class UIController : MonoBehaviour
     {
         switch (state)
         {
-            case GameStates.Menu:
+            case GameStates.Start:
                 SwitchScreen (0);
                 break;
-            case GameStates.Options:
+            case GameStates.InGame:
                 SwitchScreen (1);
                 break;
-            case GameStates.Credits:
+            case GameStates.LevelComplete:
                 SwitchScreen (2);
                 break;
-            case GameStates.LevelSelect:
+            case GameStates.InGameOptions:
                 SwitchScreen (3);
                 break;
-            case GameStates.InGame:
-                SwitchScreen (4);
-                break;
-            case GameStates.LevelComplete:
-                SwitchScreen (5);
-                break;
             case GameStates.Fade:
-                for (int i = 0; i < _Screens.Length; i++)
-                    _Screens[i].SetActive (false);
-                break;
-            case GameStates.InGameOptions:
-                SwitchScreen (6);
+                SwitchScreen (4);
                 break;
         }
     }
@@ -62,7 +52,7 @@ public class UIController : MonoBehaviour
         {
             if (i == screenNumber)
                 _Screens[i].SetActive (true);
-            else
+            else if (i != _Screens.Length - 1)
                 _Screens[i].SetActive (false);
         }
     }

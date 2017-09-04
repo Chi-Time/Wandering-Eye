@@ -1,9 +1,6 @@
 ﻿public enum GameStates
 {
-    Menu,
-    Options,
-    Credits,
-    LevelSelect,
+    Start,
     InGame,
     Fade,
     LevelComplete,

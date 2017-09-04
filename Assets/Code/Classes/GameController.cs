@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private float _FadeSpeed = .5f;
 
     private Image _FadePanel = null;
-    [SerializeField] private GameStates _CurrentGameState = GameStates.Menu;
+    [SerializeField] private GameStates _CurrentGameState = GameStates.InGame;
     private LevelManager _LevelManager = null;
 
     private void Awake ()
@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     private void AssignReferences ()
     {
         _LevelManager = GetComponent<LevelManager> ();
-        _FadePanel = GameObject.Find ("Fade Panel").GetComponent<Image> ();
+        _FadePanel = GameObject.Find ("Fade Screen").GetComponent<Image> ();
 
         EventManager.OnStateChanged += StateChanged;
     }
@@ -35,14 +35,6 @@ public class GameController : MonoBehaviour
 
         switch (state)
         {
-            case GameStates.Menu:
-                break;
-            case GameStates.Options:
-                break;
-            case GameStates.Credits:
-                break;
-            case GameStates.LevelSelect:
-                break;
             case GameStates.InGame:
                 break;
             case GameStates.LevelComplete:
@@ -72,6 +64,22 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public IEnumerator NextLevel ()
+    {
+        _FadePanel.gameObject.SetActive (true);
+        yield return StartCoroutine (FadeToNextLevel (true));
+        _LevelManager.NewLevel (_CurrentLevel += 1);
+        yield return StartCoroutine (FadeToNextLevel (false));
+    }
+
+    public IEnumerator LastLevel ()
+    {
+        _FadePanel.gameObject.SetActive (true);
+        yield return StartCoroutine (FadeToNextLevel (true));
+        _LevelManager.NewLevel (_CurrentLevel -= 1);
+        yield return StartCoroutine (FadeToNextLevel (false));
+    }
+
     private IEnumerator FadeToNextLevel (bool isFading)
     {
         float time = 0f;
@@ -91,50 +99,6 @@ public class GameController : MonoBehaviour
             _FadePanel.color = Color.black;
         else
             _FadePanel.color = Color.clear;
-    }
-
-    private IEnumerator FadeIn ()
-    {
-        float time = 0f;
-
-        while (time < _FadeSpeed)
-        {
-            _FadePanel.color = Color.Lerp (Color.clear, Color.black, time / _FadeSpeed);
-
-            time += Time.deltaTime;
-            yield return new WaitForEndOfFrame ();
-        }
-
-        _FadePanel.color = Color.black;
-    }
-
-    private IEnumerator FadeOut ()
-    {
-        float time = 0f;
-
-        while (time < _FadeSpeed)
-        {
-            _FadePanel.color = Color.Lerp (Color.black, Color.clear, time / _FadeSpeed);
-
-            time += Time.deltaTime;
-            yield return new WaitForEndOfFrame ();
-        }
-
-        _FadePanel.color = Color.clear;
-    }
-
-    public IEnumerator NextLevel ()
-    {
-        yield return StartCoroutine (FadeToNextLevel (true));
-        _LevelManager.NewLevel (_CurrentLevel += 1);
-        yield return StartCoroutine (FadeToNextLevel (false));
-    }
-
-    public IEnumerator LastLevel ()
-    {
-        yield return StartCoroutine (FadeToNextLevel (true));
-        _LevelManager.NewLevel (_CurrentLevel -= 1);
-        yield return StartCoroutine (FadeToNextLevel (false));
     }
 
     private void OnDestroy ()
