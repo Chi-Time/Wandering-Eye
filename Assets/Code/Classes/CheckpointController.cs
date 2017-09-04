@@ -2,6 +2,7 @@
 using System.Collections;
 
 //TODO: Pushes and Moves don't reset through UI callbacks when restarting level or checkpoints. Fix this.
+//TODO: Allow only one checkpoint per level unless restarted.
 
 [System.Serializable]
 public class CheckpointController
